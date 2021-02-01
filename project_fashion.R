@@ -14,9 +14,6 @@
 
 library(keras)
 library(Splinets)
-library(tidyr)
-library(ggplot2)
-library(ramify)
 
 #Code below builds uses Tensorflow tutorial found at:
 #https://tensorflow.rstudio.com/tutorials/beginners/basic-ml/tutorial_basic_classification/
