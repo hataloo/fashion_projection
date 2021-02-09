@@ -106,7 +106,8 @@ examine_new_sample <- function(knots, order, train_images, class_names){
   image(1:28, 1:28, img, col = gray((0:255/(255))), xaxt = "n", yaxt = "n",
         main = name)
   plot(img_flattened, type = "l", main = name, xaxt = "n", yaxt = "n", ylab = "")
+  data_values <- cbind(seq(length(img)),as.vector(img))
   imgproj <- project(data_values, knots, order)
   plot(imgproj$sp, type = "l", xaxt = "n", yaxt = "n", main = name)
-
 }
+
