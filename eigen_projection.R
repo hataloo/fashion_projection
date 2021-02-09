@@ -58,21 +58,25 @@ for (i in 1:length(eigen_length)){
   eigenfunctions[[i]] <- subsample(eigen_class_sp,1:eigen_length[i])
 }
 
-sample_index <- 10
+sample_index <- 30
 eigen_projections <- list()
 for (i in 1:length(eigen_length)){
   eigen_projections[[i]] <- lincomb(eigenfunctions[[i]], C[sample_index, 1:eigen_length[i], drop = F])
 }
 
 
-par(mfrow = c(length(eigen_length)+1,1))
+#par(mfrow = c(length(eigen_length)+1,1))
+layoutmat <- matrix(c(1,2), nrow = 1,ncol = 2, byrow = TRUE)
+for(i in 1:(length(eigen_length)+1)){layoutmat <- rbind(layoutmat, c(i+2,i+2))}
+layout(layoutmat)
+image(1:28, 1:28, train_images_by_class[[class_index]][sample_index,,], col = gray((0:255/(255))), xaxt = "n", yaxt = "n", main = class_names[class_index])
+image(1:28, 1:28, train_images_by_class[[class_index]][sample_index,,], col = gray((0:255/(255))), xaxt = "n", yaxt = "n")
+
 plot(data_values[,1], data_values[,sample_index+1], type = "l", xaxt = "n", yaxt = "n", ylab = "")
 for (i in 1:length(eigen_length)){ plot(eigen_projections[[i]], type = "l")}
 
 #Plots a sample of the original data along with the projection onto
 #eigenbases with different number of eigenvectors.
 
-
-#image(1:28, 1:28, images[1,,] / 255, col = gray((0:255/(255))), xaxt = "n", yaxt = "n", main = name)
 
 
