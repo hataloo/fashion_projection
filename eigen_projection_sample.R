@@ -42,7 +42,7 @@ sample_eigen_visualization <- function(sample_class, sample_index, projection_cl
   }
 }
 
-sample_eigen_visualization(sample_class, 15, projection_class, eigen_length, 
+sample_eigen_visualization(sample_class, sample_index, projection_class, eigen_length, 
                            info = list("train_images" = train_images_by_class, 
                                       "class_names" = class_names,
                                       "eigen_class_sp" = eigen_class_sp,
