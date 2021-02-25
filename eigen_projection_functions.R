@@ -22,21 +22,28 @@ get_eigenfunctions <- function(eigen_class_sp, eigen_length){
 eigen_project_sample <- function(sample_spline_projection_coeffs, eigenfunctions, spect, eigen_length){
   sample_eigen_coeffs <- sample_spline_projection_coeffs %*% spect$vectors
   eigen_projection <- lincomb(eigenfunctions, t(sample_eigen_coeffs[1:eigen_length]))
-  eigen_projection_info <- list("coeffs" = sample_eigen_coeffs, "proj" = eigen_projection)
+  eigen_projection_info <- list("coeffs" = sample_eigen_coeffs[1:eigen_length], "proj" = eigen_projection)
   return(eigen_projection_info)
 }
 
 spline_and_eigen_project_sample <- function(centered_sample_vector, knots, order,eigenfunctions, spect, eigen_length){
   data_values <- cbind(seq(length(centered_sample_vector)), centered_sample_vector)
   spline_sample_projection <- project(data_values, knots, order)
-  print(dim(spline_sample_projection$coeff))
-  print(length(spline_sample_projection$coeff))
   sample_eigen_coeffs <- spline_sample_projection$coeff %*% spect$vectors
   
   eigen_projection <- lincomb(eigenfunctions, t(sample_eigen_coeffs[1:eigen_length]))
-  eigen_projection_info <- list("coeffs" = sample_eigen_coeffs, "proj" = eigen_projection)
+  eigen_projection_info <- list("coeffs" = sample_eigen_coeffs[1:eigen_length], "proj" = eigen_projection)
   return(eigen_projection_info)
 }
+
+spline_and_eigen_project_samples <- function(centered_sample_vectors, knots, order, eigenfunctions, spect, eigen_length){
+  data_values <- cbind(seq(dim(centered_sample_vectors)[2]), t(centered_sample_vectors))
+  splines_samples_projections <- project(data_values, knots, order)
+  sample_eigen_coeffs <- splines_samples_projections$coeff %*% spect$vectors
+  eigen_projections <- lincomb(eigenfunctions, (sample_eigen_coeffs[,1:eigen_length]))
+  eigen_projection_info <- list("coeffs" = sample_eigen_coeffs[,1:eigen_length], "proj" = eigen_projections)
+}
+
 
 get_max_eigen_coeff <- function(sample_spline_projection_coeffs, eigen_class_sp, spect,eigen_length){
   eigenfunctions <- get_eigenfunctions(eigen_class_sp, eigen_length)
