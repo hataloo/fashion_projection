@@ -30,11 +30,17 @@ for(i in 1:K){
     remaining_distances[, class_index] <- apply((remaining_data-cross_val_means[i,class_index,])^2, c(1) ,sum)
     setTimerProgressBar(pb, getTimerProgressBar(pb)+1)
   }
-  removed_classification <- apply(removed_distances, c(1), which.min)
+  removed_classification <- apply(removed_distances, c(1), which.min)-1
   removed_accuracy[i] = mean(removed_classification == removed_labels)
-  remaining_classification <- apply(remaining_distances, c(1), which.min)
+  remaining_classification <- apply(remaining_distances, c(1), which.min)-1
   remaining_accuracy[i] = mean(remaining_classification == remaining_labels)
 }
 
 print(removed_accuracy)
 print(remaining_accuracy)
+#Meh results, around 15% accurate.
+
+#Inspecting the result of the prints below, we see that
+#the classifier is heavily biased to some classes
+for(i in 0:9){print(sum(remaining_classification==i))}
+for(i in 0:9){print(sum(removed_classification==i))}
