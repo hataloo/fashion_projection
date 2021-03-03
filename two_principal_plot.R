@@ -9,8 +9,8 @@ source("eigen_projection_functions.R")
 eigen_length = 2
 class_index = 4
 projection_index <- 1
-number_of_classes <- 10
-number_of_samples <- 20
+number_of_classes <- 2
+number_of_samples <- 10
 
 eigenfunctions <- get_eigenfunctions(eigen_class_sp[[1]], eigen_length)
 
@@ -35,7 +35,7 @@ for (projection_index in 1:number_of_classes){
   }
 }
 
-projclass <- "Bag"
+projclass <- "Trouser"
 p <- ggplot(dplyr::filter(eigen_coeff_df, ProjClass == projclass), aes(x = x, y = y, color = Class, size = 0.5)) + geom_point() +
   labs(x = "First principal component", 
        y = "Second principal component",

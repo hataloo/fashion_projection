@@ -15,6 +15,16 @@ eigen_decompose_class <- function(class_projection, eigen_projection_size){
   return(eigen_info)
 }
 
+eigen_decompose_class_non_centered <- function(non_centered_class_projection, mean_class_projection, eigen_projection_size, projection_index){
+  sigma <- cov(non_centered_class_projection$coeff[1:eigen_projection_size,] - mean_class_projection$coeff[projection_index,])
+  spect <- eigen(sigma, symmetric = T)
+  
+  eigen_class_sp <- lincomb(non_centered_class_projection$basis, t(spect$vectors))
+  eigen_coeffs <- non_centered_class_projection$coeff %*% spect$vectors
+  eigen_info <- list("sigma" = sigma, "spect" = spect, "eigen_class_sp" = eigen_class_sp, "coeffs" = eigen_coeffs)
+  return(eigen_info)
+}
+
 get_eigenfunctions <- function(eigen_class_sp, eigen_length){
   return(subsample(eigen_class_sp, 1:eigen_length))
 }
@@ -42,6 +52,14 @@ spline_and_eigen_project_samples <- function(centered_sample_vectors, knots, ord
   sample_eigen_coeffs <- splines_samples_projections$coeff %*% spect$vectors
   eigen_projections <- lincomb(eigenfunctions, (sample_eigen_coeffs[,1:eigen_length]))
   eigen_projection_info <- list("coeffs" = sample_eigen_coeffs[,1:eigen_length], "proj" = eigen_projections)
+  return(eigen_projection_info)
+}
+
+eigen_project_samples_from_coeffs <- function(centered_sample_coeffs, spect, eigenfunctions ,eigen_length){
+  sample_eigen_coeffs <- centered_sample_coeffs %*% spect$vectors
+  eigen_projections <- lincomb(eigenfunctions, (sample_eigen_coeffs[,1:eigen_length]))
+  eigen_projection_info <- list("coeffs" = sample_eigen_coeffs[,1:eigen_length], "proj" = eigen_projections)
+  return(eigen_projection_info)
 }
 
 

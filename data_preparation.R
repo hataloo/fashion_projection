@@ -30,6 +30,11 @@ for (class_index in 1:length(class_names)){
   class_image_means[[class_index]] <- apply(train_images_by_class[[class_index]], c(2,3), mean)
   class_vector_means[[class_index]] <- apply(train_vectors_by_class[[class_index]], 2, mean)
 }
+class_vector_means_mat <- matrix(nrow = 10, ncol = image_size^2)
+for(class_index in 1:length(class_vector_means)){
+  class_vector_means_mat[class_index,] <- class_vector_means[[class_index]]
+}
+
 
 train_images_by_class_centered <- center_images(train_images_by_class, class_image_means)
 train_vectors_by_class_centered <- center_vectors(train_vectors_by_class, class_vector_means)

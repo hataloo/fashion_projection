@@ -39,3 +39,17 @@ center_vectors <- function(train_vectors_by_class, class_vector_means){
   }
   return(train_vectors_by_class_centered)
 }
+
+center_vectors_around_all <- function(train_vectors_by_class, class_vector_means){
+  train_vectors_by_class_centered <- list()
+  for(class_index in 1:length(train_images_by_class)){
+    inner_list <- list()
+    for(projection_index in 1:length(class_vector_means)){
+      inner_list[[projection_index]] <- apply(train_vectors_by_class[[class_index]], c(1),
+                                                              function(x) x - class_image_means[[projection_index]])
+      inner_list[[projection_index]] <- t(train_vectors_by_class_centered[[projection_index]])
+    }
+    train_vectors_by_class_centered[[class_index]] <- inner_list
+  }
+  return(train_vectors_by_class_centered)
+}
