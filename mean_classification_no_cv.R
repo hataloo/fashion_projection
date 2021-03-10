@@ -11,7 +11,7 @@ pb <- timerProgressBar(min = 0, max = 10*10*6000, style = 3)
 for(class_index in 1:length(class_names)){
   for(distance_to_class_index in 1:length(class_names)){
     for(sample_index in 1:6000){
-      all_distances[[class_index, sample_index, distance_to_class_index]] <- mean((train_vectors_by_class[[class_index]][sample_index,] - total_mean_images[[distance_to_class_index]])^2)
+      all_distances[[class_index, sample_index, distance_to_class_index]] <- sum((train_vectors_by_class[[class_index]][sample_index,] - total_mean_images[[distance_to_class_index]])^2)
       setTimerProgressBar(pb, 1+ getTimerProgressBar(pb))
     }
   }
