@@ -42,11 +42,13 @@ number_of_eigenvalues_to_save <- min(80, number_of_knots - order -1)
 eigen_coeffs_array <- array(dim = c(number_to_project, length(class_names), number_of_eigenvalues_to_save))
 sigma <- array(dim = c(length(class_names), number_of_knots - order -1, number_of_knots - order -1))
 spect <- list()
+eigen_class_sp <- list()
 
 for(projection_index in 1:length(class_names)){
   sigma[projection_index,,] <- cov(train_vector_splines$coeff[labels_projected == (projection_index-1), ] - class_means_splines$coeff[projection_index,])
   spect[[projection_index]] <- eigen(sigma[projection_index,,], symmetric = T)
   
+  eigen_class_sp[[projection_index]] <- lincomb(train_vector_splines$basis, t(spect$vectors))
   temp <- (train_vector_splines$coeff - class_means_splines$coeff[projection_index,]) %*% spect[[projection_index]]$vectors
   eigen_coeffs_array[,projection_index,] <- temp[,1:number_of_eigenvalues_to_save]
 }
